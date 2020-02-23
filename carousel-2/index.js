@@ -1,5 +1,5 @@
 class Carousel {
-  constructor(carouselId, initialActiveSlideIndex) {
+  constructor(carouselId, initialActiveSlideIndex, intervalTime) {
     this.carousel = document.querySelector(`.carousel#${carouselId}`);
     this.track = this.carousel.querySelector(".carousel__track");
     this.slides = Array.from(this.track.children);
@@ -14,6 +14,8 @@ class Carousel {
     this.slideWidth = this.slides[0].getBoundingClientRect().width;
     // Slide Index to be displayed at start
     this.activeSlideIndex = initialActiveSlideIndex; // ATTENTION: just use setActiveSlideIndex() to change this value !!!!!
+    this.intervalTime = intervalTime;
+    this.interval = null;
     this.init();
   }
 
@@ -48,6 +50,19 @@ class Carousel {
     this.setActiveSlideIndex(newActiveIndex);
     this.moveToSlide(this.activeSlideIndex);
     this.updateDots(this.activeSlideIndex);
+    this.resetCarouselInterval();
+  };
+
+  // methods to manage carousel interval
+  setCarouselInterval = () => {
+    this.interval = setInterval(() => {
+      this.updateCarousel(this.activeSlideIndex + 1);
+    }, this.intervalTime);
+  };
+
+  resetCarouselInterval = () => {
+    clearInterval(this.interval);
+    this.setCarouselInterval();
   };
 
   init = () => {
@@ -61,14 +76,12 @@ class Carousel {
     })`;
     this.updateDots(this.activeSlideIndex);
     // set interval
-    setInterval(() => {
-      this.updateCarousel(this.activeSlideIndex + 1);
-    }, 5000);
-    // when click left button, move slides to the left
+    this.setCarouselInterval();
+    // when click left button, move slides to the left and reset interval
     this.prevSlideButton.addEventListener("click", () => {
       this.updateCarousel(this.activeSlideIndex - 1);
     });
-    // when click right button, move slides to the right
+    // when click right button, move slides to the right and reset interval
     this.nextSlideButton.addEventListener("click", () => {
       this.updateCarousel(this.activeSlideIndex + 1);
     });
@@ -85,5 +98,5 @@ class Carousel {
   };
 }
 
-const carousel1 = new Carousel("carousel-1", 0);
-const carousel2 = new Carousel("carousel-2", 0);
+const carousel1 = new Carousel("carousel-1", 0, 5000);
+const carousel2 = new Carousel("carousel-2", 0, 5000);
