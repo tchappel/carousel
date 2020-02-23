@@ -95,6 +95,14 @@ class Carousel {
       );
       this.updateCarousel(nextActiveSlideIndex);
     });
+    // manage screen resize...
+    window.addEventListener('resize', () => {
+      this.slideWidth = this.slides[0].getBoundingClientRect().width;
+      // arrange slides next to one another
+      this.slides.forEach((slide, index) => {
+        slide.style.left = `${this.slideWidth * index}px`;
+      });
+    });
   };
 }
 
