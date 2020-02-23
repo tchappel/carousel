@@ -11,7 +11,7 @@ class Carousel {
     );
     this.dotsNav = this.carousel.querySelector(".carousel__nav");
     this.dots = Array.from(this.dotsNav.children);
-    this.slideWidth = this.slides[0].getBoundingClientRect().width;
+    this.slideWidth = this.carousel.getBoundingClientRect().width;
     // Slide Index to be displayed at start
     this.activeSlideIndex = initialActiveSlideIndex; // ATTENTION: just use setActiveSlideIndex() to change this value !!!!!
     this.intervalTime = intervalTime;
@@ -97,8 +97,11 @@ class Carousel {
     });
     // manage screen resize...
     window.addEventListener('resize', () => {
-      this.slideWidth = this.slides[0].getBoundingClientRect().width;
-      // arrange slides next to one another
+      // reset slideWidth
+      this.slideWidth = this.carousel.getBoundingClientRect().width;
+      // reassign track width
+      track.style.width = `${this.slideWidth * (this.slides.length - 1)}px`
+      // rearrange slides next to one another
       this.slides.forEach((slide, index) => {
         slide.style.left = `${this.slideWidth * index}px`;
       });
