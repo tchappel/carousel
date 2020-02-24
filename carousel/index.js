@@ -24,7 +24,7 @@ class Carousel {
     if (num > this.slides.length - 1) {
       this.activeSlideIndex = 0;
     } else if (num < 0) {
-      this.activeSlideIndex = slides.length - 1;
+      this.activeSlideIndex = this.slides.length - 1;
     } else {
       this.activeSlideIndex = num;
     }
@@ -97,6 +97,7 @@ class Carousel {
     });
     // manage screen resize...
     window.addEventListener('resize', () => {
+      if (!this.track) return
       // reset slideWidth
       this.slideWidth = this.carousel.getBoundingClientRect().width;
       // rearrange slides next to one another
