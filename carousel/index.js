@@ -99,8 +99,6 @@ class Carousel {
     window.addEventListener('resize', () => {
       // reset slideWidth
       this.slideWidth = this.carousel.getBoundingClientRect().width;
-      // reassign track width
-      track.style.width = `${this.slideWidth * (this.slides.length - 1)}px`
       // rearrange slides next to one another
       this.slides.forEach((slide, index) => {
         slide.style.left = `${this.slideWidth * index}px`;
